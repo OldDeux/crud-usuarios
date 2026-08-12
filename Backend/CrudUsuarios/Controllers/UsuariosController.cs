@@ -40,6 +40,22 @@ public class UsuariosController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
     {
+        var emailExiste = await _context.Usuarios
+            .AnyAsync(u => u.Email == usuario.Email);
+
+        if (emailExiste)
+        {
+            return BadRequest("O e-mail informado já está cadastrado.");
+        }
+
+        var cpfExiste = await _context.Usuarios
+            .AnyAsync(u => u.CPF == usuario.CPF);
+
+        if (cpfExiste)
+        {
+            return BadRequest("O CPF informado já está cadastrado.");
+        }
+
         _context.Usuarios.Add(usuario);
 
         await _context.SaveChangesAsync();
