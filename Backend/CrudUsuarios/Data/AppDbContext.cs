@@ -10,5 +10,12 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Usuario> Usuarios { get; set; } = null!;
+    public DbSet<Usuario> Usuarios { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Usuario>()
+            .Property(u => u.DataCadastro)
+            .HasDefaultValueSql("GETDATE()");
+    }
 }

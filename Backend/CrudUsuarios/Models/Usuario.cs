@@ -14,5 +14,5 @@ public class Usuario
 
     public DateTime DataNascimento { get; set; }
 
-    public DateTime DataCadastro { get; set; }
+    public DateTime? DataCadastro { get; set; }
 }

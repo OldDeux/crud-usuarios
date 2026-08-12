@@ -36,4 +36,18 @@ public class UsuariosController : ControllerBase
 
         return Ok(usuario);
     }
+
+    [HttpPost]
+    public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
+    {
+        _context.Usuarios.Add(usuario);
+
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(
+            nameof(GetUsuario),
+            new { id = usuario.Id },
+            usuario
+        );
+    }
 }
