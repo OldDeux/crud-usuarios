@@ -66,4 +66,41 @@ public class UsuariosController : ControllerBase
             usuario
         );
     }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutUsuario(int id, Usuario usuario)
+    {
+        var usuarioExistente = await _context.Usuarios.FindAsync(id);
+
+        if (usuarioExistente == null)
+        {
+            return NotFound();
+        }
+
+        var emailExiste = await _context.Usuarios
+            .AnyAsync(u => u.Email == usuario.Email && u.Id != id);
+
+        if (emailExiste)
+        {
+            return BadRequest("O e-mail informado já está cadastrado.");
+        }
+
+        var cpfExiste = await _context.Usuarios
+            .AnyAsync(u => u.CPF == usuario.CPF && u.Id != id);
+
+        if (cpfExiste)
+        {
+            return BadRequest("O CPF informado já está cadastrado.");
+        }
+
+        usuarioExistente.Nome = usuario.Nome;
+        usuarioExistente.Email = usuario.Email;
+        usuarioExistente.CPF = usuario.CPF;
+        usuarioExistente.Telefone = usuario.Telefone;
+        usuarioExistente.DataNascimento = usuario.DataNascimento;
+
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
 }
