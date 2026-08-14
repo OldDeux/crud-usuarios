@@ -1,3 +1,4 @@
+using CrudUsuarios.DTOs;
 using CrudUsuarios.Models;
 using CrudUsuarios.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -37,8 +38,17 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Usuario>> PostUsuario(Usuario usuario)
+    public async Task<ActionResult<Usuario>> PostUsuario(UsuarioCreateDto dto)
     {
+        var usuario = new Usuario
+        {
+            Nome = dto.Nome,
+            Email = dto.Email,
+            CPF = dto.CPF,
+            Telefone = dto.Telefone,
+            DataNascimento = dto.DataNascimento
+        };
+
         var resultado = await _service.CriarAsync(usuario);
 
         if (!resultado.Sucesso)
@@ -54,8 +64,17 @@ public class UsuariosController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutUsuario(int id, Usuario usuario)
+    public async Task<IActionResult> PutUsuario(int id, UsuarioUpdateDto dto)
     {
+        var usuario = new Usuario
+        {
+            Nome = dto.Nome,
+            Email = dto.Email,
+            CPF = dto.CPF,
+            Telefone = dto.Telefone,
+            DataNascimento = dto.DataNascimento
+        };
+
         var resultado = await _service.AtualizarAsync(id, usuario);
 
         if (!resultado.Sucesso)
