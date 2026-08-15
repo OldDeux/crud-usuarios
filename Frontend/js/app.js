@@ -21,6 +21,10 @@ async function carregarUsuarios() {
 async function cadastrarUsuario(event) {
     event.preventDefault();
 
+    const formulario = document.getElementById("formUsuario");
+
+    const id = formulario.dataset.id;
+
     const usuario = {
         nome: document.getElementById("nome").value,
         email: document.getElementById("email").value,
@@ -30,22 +34,46 @@ async function cadastrarUsuario(event) {
     };
 
     try {
-        const resposta = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(usuario)
-        });
+        let resposta;
+
+        if (id) {
+            resposta = await fetch(`${API_URL}/${id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(usuario)
+            });
+        } else {
+            resposta = await fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(usuario)
+            });
+        }
 
         if (!resposta.ok) {
             const erro = await resposta.text();
             throw new Error(erro);
         }
 
-        alert("Usuário cadastrado com sucesso!");
+        alert(
+            id
+                ? "Usuário atualizado com sucesso!"
+                : "Usuário cadastrado com sucesso!"
+        );
 
-        document.getElementById("formUsuario").reset();
+        formulario.reset();
+
+        delete formulario.dataset.id;
+
+        document.querySelector(".formulario h2").textContent =
+            "Novo usuário";
+
+        document.querySelector("#formUsuario button").textContent =
+            "Cadastrar usuário";
 
         await carregarUsuarios();
 
@@ -71,10 +99,56 @@ function mostrarUsuarios(usuarios) {
             <td>${usuario.cpf}</td>
             <td>${usuario.telefone ?? ""}</td>
             <td>${formatarData(usuario.dataNascimento)}</td>
-        `;
+            <td>
+                <button onclick="editarUsuario(${usuario.id})">
+                    Editar
+                </button>
+
+                <button onclick="excluirUsuario(${usuario.id})">
+                     Excluir
+                </button>
+            </td>
+`;
 
         tabela.appendChild(linha);
     });
+}
+
+async function editarUsuario(id) {
+    try {
+        const resposta = await fetch(`${API_URL}/${id}`);
+
+        if (!resposta.ok) {
+            throw new Error("Usuário não encontrado.");
+        }
+
+        const usuario = await resposta.json();
+
+        document.getElementById("nome").value = usuario.nome;
+        document.getElementById("email").value = usuario.email;
+        document.getElementById("cpf").value = usuario.cpf;
+        document.getElementById("telefone").value = usuario.telefone ?? "";
+
+        document.getElementById("dataNascimento").value =
+            usuario.dataNascimento.substring(0, 10);
+
+        document.getElementById("formUsuario").dataset.id = usuario.id;
+
+        document.querySelector(".formulario h2").textContent =
+            "Editar usuário";
+
+        document.querySelector("#formUsuario button").textContent =
+            "Atualizar usuário";
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    } catch (erro) {
+        console.error(erro);
+        alert(erro.message);
+    }
 }
 
 function formatarData(data) {
