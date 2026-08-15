@@ -1,61 +1,37 @@
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    background: #f4f6f8;
+    color: #222;
 }
 
 .container {
-    width: 90%;
+    width: 95%;
     max-width: 1200px;
     margin: 40px auto;
 }
 
 h1 {
+    text-align: center;
     margin-bottom: 30px;
 }
 
+h2 {
+    margin-bottom: 20px;
+}
+
+.formulario,
 .usuarios {
     background: white;
     padding: 25px;
     border-radius: 8px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th,
-td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
-
-th {
-    background: #f0f0f0;
-}
-
-@media (max-width: 800px) {
-    .usuarios {
-        overflow-x: auto;
-    }
-
-    table {
-        min-width: 800px;
-    }
-}
-
-.formulario {
-    background: white;
-    padding: 25px;
-    border-radius: 8px;
     margin-bottom: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .campo {
@@ -65,11 +41,12 @@ th {
 }
 
 .campo label {
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     font-weight: bold;
 }
 
 .campo input {
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -77,9 +54,59 @@ th {
 }
 
 button {
-    padding: 10px 20px;
+    padding: 10px 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+form button {
+    margin-top: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    font-weight: bold;
+}
+
+td button {
+    margin-bottom: 5px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        margin: 20px auto;
+        padding: 10px;
+    }
+
+    .formulario,
+    .usuarios {
+        padding: 15px;
+    }
+
+    .usuarios {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 800px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
 }

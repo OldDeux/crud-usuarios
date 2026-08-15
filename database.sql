@@ -1,0 +1,20 @@
+CREATE DATABASE CrudUsuarios;
+GO
+
+USE CrudUsuarios;
+GO
+
+CREATE TABLE Usuarios (
+    Id INT IDENTITY(1,1) NOT NULL,
+    Nome NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(150) NOT NULL,
+    CPF NVARCHAR(14) NOT NULL,
+    Telefone NVARCHAR(20) NULL,
+    DataNascimento DATE NOT NULL,
+    DataCadastro DATETIME NOT NULL DEFAULT GETDATE(),
+
+    CONSTRAINT PK_Usuarios PRIMARY KEY (Id),
+    CONSTRAINT UQ_Usuarios_Email UNIQUE (Email),
+    CONSTRAINT UQ_Usuarios_CPF UNIQUE (CPF)
+);
+GO
