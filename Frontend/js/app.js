@@ -151,6 +151,35 @@ async function editarUsuario(id) {
     }
 }
 
+async function excluirUsuario(id) {
+    const confirmar = confirm(
+        "Tem certeza que deseja excluir este usuário?"
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    try {
+        const resposta = await fetch(`${API_URL}/${id}`, {
+            method: "DELETE"
+        });
+
+        if (!resposta.ok) {
+            const erro = await resposta.text();
+            throw new Error(erro);
+        }
+
+        alert("Usuário excluído com sucesso!");
+
+        await carregarUsuarios();
+
+    } catch (erro) {
+        console.error(erro);
+        alert(erro.message);
+    }
+}
+
 function formatarData(data) {
     if (!data) {
         return "";
