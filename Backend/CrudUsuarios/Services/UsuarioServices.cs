@@ -41,6 +41,11 @@ public class UsuarioService
             return (false, "O CPF informado já está cadastrado.", null);
         }
 
+        if (usuario.DataNascimento > DateTime.Now)
+        {
+            return (false, "A data de nascimento não pode ser futura.", null);
+        }
+
         _context.Usuarios.Add(usuario);
 
         await _context.SaveChangesAsync();
@@ -71,6 +76,11 @@ public class UsuarioService
         if (cpfExiste)
         {
             return (false, "O CPF informado já está cadastrado.");
+        }
+
+        if (usuario.DataNascimento > DateTime.Now)
+        {
+            return (false, "A data de nascimento não pode ser futura.");
         }
 
         usuarioExistente.Nome = usuario.Nome;
