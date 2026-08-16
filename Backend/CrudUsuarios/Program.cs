@@ -27,17 +27,22 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 
-// Configuração do Swagger/OpenAPI para documentação e testes manuais da API
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// Geração nativa de OpenAPI do .NET (gera o JSON em /openapi/v1.json)
+builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Swagger habilitado apenas em ambiente de desenvolvimento
+// Swagger UI habilitado apenas em ambiente de desenvolvimento,
+// consumindo o JSON gerado pelo AddOpenApi acima
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "CrudUsuarios API v1");
+        options.RoutePrefix = "swagger";
+    });
 }
 
 app.UseCors("Frontend");
