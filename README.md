@@ -21,6 +21,7 @@ O sistema permite realizar o cadastro, consulta, atualização e exclusão de us
 - .NET 10
 - ASP.NET Core
 - Entity Framework Core
+- Swagger / OpenAPI
 
 ### Banco de Dados
 
