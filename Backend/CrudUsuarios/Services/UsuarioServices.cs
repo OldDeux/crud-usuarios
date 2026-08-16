@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CrudUsuarios.Services;
 
+/// <summary>
+/// Camada de regras de negócio para o CRUD de usuários: validações de duplicidade
+/// (e-mail e CPF), validação de data de nascimento e acesso ao banco via EF Core.
+/// </summary>
 public class UsuarioService
 {
     private readonly AppDbContext _context;
@@ -23,6 +27,7 @@ public class UsuarioService
         return await _context.Usuarios.FindAsync(id);
     }
 
+    // Cadastra um novo usuário, validando e-mail/CPF duplicados e data de nascimento futura.
     public async Task<(bool Sucesso, string? Erro, Usuario? Usuario)> CriarAsync(Usuario usuario)
     {
         var emailExiste = await _context.Usuarios
@@ -53,6 +58,8 @@ public class UsuarioService
         return (true, null, usuario);
     }
 
+    // Atualiza os dados de um usuário existente, repetindo as mesmas validações do cadastro
+    // (exceto o próprio registro sendo atualizado, excluído da checagem de duplicidade).
     public async Task<(bool Sucesso, string? Erro)> AtualizarAsync(int id, Usuario usuario)
     {
         var usuarioExistente = await _context.Usuarios.FindAsync(id);
@@ -94,6 +101,7 @@ public class UsuarioService
         return (true, null);
     }
 
+    // Remove um usuário pelo ID. Retorna false caso o usuário não exista.
     public async Task<bool> ExcluirAsync(int id)
     {
         var usuario = await _context.Usuarios.FindAsync(id);

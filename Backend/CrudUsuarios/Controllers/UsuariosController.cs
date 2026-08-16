@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CrudUsuarios.Controllers;
 
+/// <summary>
+/// API REST para o CRUD de usuários. Expõe os endpoints de listagem, consulta,
+/// cadastro, atualização e exclusão, delegando as regras de negócio ao UsuarioService.
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class UsuariosController : ControllerBase

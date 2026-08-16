@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CrudUsuarios.Models;
 
+/// <summary>
+/// Representa um usuário cadastrado no sistema, mapeado para a tabela "Usuarios" no banco de dados.
+/// </summary>
 public class Usuario
 {
     public int Id { get; set; }
@@ -25,5 +28,6 @@ public class Usuario
     [Required(ErrorMessage = "A data de nascimento é obrigatória.")]
     public DateTime DataNascimento { get; set; }
 
+    // Preenchido automaticamente pelo banco de dados (GETDATE()) no momento da inserção.
     public DateTime? DataCadastro { get; set; }
 }

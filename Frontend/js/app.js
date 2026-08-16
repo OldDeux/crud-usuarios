@@ -1,5 +1,7 @@
+// URL base da API REST (Back-end ASP.NET Core)
 const API_URL = "http://localhost:5065/api/usuarios";
 
+// Busca todos os usuários cadastrados e atualiza a tabela na tela
 async function carregarUsuarios() {
     try {
         const resposta = await fetch(API_URL);
@@ -18,6 +20,8 @@ async function carregarUsuarios() {
     }
 }
 
+// Trata o envio do formulário: cadastra um novo usuário (POST) ou,
+// se o formulário estiver em modo de edição (dataset.id preenchido), atualiza (PUT)
 async function cadastrarUsuario(event) {
     event.preventDefault();
 
@@ -83,6 +87,7 @@ async function cadastrarUsuario(event) {
     }
 }
 
+// Renderiza a lista de usuários na tabela HTML
 function mostrarUsuarios(usuarios) {
     const tabela = document.getElementById("tabelaUsuarios");
 
@@ -114,6 +119,7 @@ function mostrarUsuarios(usuarios) {
     });
 }
 
+// Busca os dados do usuário pelo ID e preenche o formulário em modo de edição
 async function editarUsuario(id) {
     try {
         const resposta = await fetch(`${API_URL}/${id}`);
@@ -151,6 +157,7 @@ async function editarUsuario(id) {
     }
 }
 
+// Exclui um usuário após confirmação do usuário no navegador
 async function excluirUsuario(id) {
     const confirmar = confirm(
         "Tem certeza que deseja excluir este usuário?"
